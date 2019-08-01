@@ -1,0 +1,12 @@
+[package]
+name = "regiondo-mydays-migration"
+version = "0.1.0"
+authors = ["ebelleon <ebel@jochen-schweizer.de>"]
+edition = "2018"
+description = "Convert to Excel to CSV for Regiondo Migration!"
+
+[dependencies]
+calamine = "0.15.5"
+csv = "1.1.1"
+serde = { version = "1.0", features = ["derive"] }
+structopt = "0.2"
