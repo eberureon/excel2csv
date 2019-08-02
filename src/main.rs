@@ -11,7 +11,7 @@ struct Opt {
     /// Excel to be converted
     #[structopt(parse(from_os_str), short = "i", long = "input")]
     input: PathBuf,
-    /// Destination for Converted CSV. Defaults to CSV with input Name
+    /// Destination for Converted CSV [default: input Name]
     #[structopt(parse(from_os_str), short = "o", long = "output")]
     output: Option<PathBuf>,
     /// Custom Delimiter
