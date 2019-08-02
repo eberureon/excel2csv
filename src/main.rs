@@ -15,7 +15,7 @@ struct Opt {
     #[structopt(parse(from_os_str), short = "o", long = "output")]
     output: Option<PathBuf>,
     /// Custom Delimiter
-    #[structopt(short = "d", long = "delimiter", default_value="|")]
+    #[structopt(short = "d", long = "delimiter", default_value = "|")]
     delimiter: char,
 }
 
