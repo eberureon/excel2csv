@@ -8,12 +8,15 @@ use structopt::StructOpt;
 #[derive(Debug, StructOpt)]
 #[structopt()]
 struct Opt {
-    /// Excel with Migration Information
-    #[structopt(parse(from_os_str))]
+    /// Excel to be converted
+    #[structopt(parse(from_os_str), short = "i", long = "input")]
     input: PathBuf,
     /// Destination for Converted CSV. Defaults to CSV with input Name
-    #[structopt(parse(from_os_str))]
+    #[structopt(parse(from_os_str), short = "o", long = "output")]
     output: Option<PathBuf>,
+    /// Custom Delimiter
+    #[structopt(short = "d", long = "delimiter", default_value="|")]
+    delimiter: char,
 }
 
 #[derive(Serialize)]
@@ -27,10 +30,10 @@ struct Row<'a> {
 fn main() -> Result<(), Error> {
     let opt = Opt::from_args();
     let output = opt.output.map_or(default_output_path(&opt.input), Ok)?;
-    convert_to_csv(opt.input, output)
+    convert_to_csv(opt.input, output, opt.delimiter as u8)
 }
 
-fn convert_to_csv(input: PathBuf, output: PathBuf) -> Result<(), Error> {
+fn convert_to_csv(input: PathBuf, output: PathBuf, delimiter: u8) -> Result<(), Error> {
     let mut workbook: Xlsx<_> = open_workbook(input)?;
     let sheet = match workbook.worksheet_range("Tabelle1") {
         Some(workbook) => workbook?,
@@ -41,7 +44,7 @@ fn convert_to_csv(input: PathBuf, output: PathBuf) -> Result<(), Error> {
 
     let path = Path::new(&output);
     let mut wtr = WriterBuilder::new()
-        .delimiter(b'|')
+        .delimiter(delimiter)
         .from_path(path)
         .map_err(|e| Error::Io(e.into()))?;
 
