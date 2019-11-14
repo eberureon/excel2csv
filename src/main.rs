@@ -11,7 +11,7 @@ struct Opt {
     /// Excel to be converted
     #[structopt(parse(from_os_str), short = "i", long = "input")]
     input: PathBuf,
-    /// Destination for Converted CSV [default: input Name]
+    /// Destination for Converted CSV with file ending [default: input Name]
     #[structopt(parse(from_os_str), short = "o", long = "output")]
     output: Option<PathBuf>,
     /// Custom Delimiter
@@ -51,8 +51,8 @@ fn convert_to_csv(input: PathBuf, output: PathBuf, delimiter: u8) -> Result<(), 
     for result in rows {
         let (experience_product_id, option_id): (String, String) = result?;
         wtr.serialize(Row {
-            experience_product_id: &experience_product_id,
-            option_id: &option_id,
+            experience_product_id: &experience_product_id.trim(),
+            option_id: &option_id.trim(),
         })
         .map_err(|e| Error::Io(e.into()))?;
     }
