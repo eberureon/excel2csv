@@ -7,7 +7,8 @@ Command Line Tool to convert Excel Files to CSV with pipes as delimiter
 Use Rust's internal package manager `cargo` to install excel2csv:
 
 ```
-https://github.com/ebelleon/excel2csv.git
+git clone https://github.com/ebelleon/excel2csv.git
+cd excel2csv
 cargo install --path .
 ```
 
